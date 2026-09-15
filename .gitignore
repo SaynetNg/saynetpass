@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+build/
+dist/
+*.spec
+.idea/
+.vscode/
+data/*.db
+data/*.db-journal
+data/*.log
+data/settings.json
+!data/.gitkeep
