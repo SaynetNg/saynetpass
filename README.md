@@ -1,276 +1,433 @@
-# saynet.ng Password Manager
+# SAYNET.NG PASSWORD MANAGER
 
-A secure, fully **offline** desktop password manager written in Python with a
-modern PySide6 (Qt) interface. Built for the community and free to use across
-any platform that supports Python. All vault data is encrypted locally with
-**AES-256-GCM** using a key derived from your master password with
-**Argon2id**. The master password is never stored, hashed, logged, or exposed
-in any form.
+A fully ****offline**** desktop password manager built with Python and a
 
----
+modern PySide6 (Qt) interface. The project is made for the community and can
 
-## Features
+be used on any platform that supports Python. Vault data is encrypted locally
 
-- First-launch welcome flow: create a new vault or unlock an existing one
-- Master-password setup with live strength meter and mandatory
-  "cannot be recovered" acknowledgement
-- Unlock verification via authenticated encryption (no password hash stored)
-- Per-session brute-force backoff (increasing delays, capped at 15s, never a
-  permanent lockout)
+using ****AES-256-GCM**** with a key derived from the master password using
+
+****Argon2id****. The master password is never stored, hashed, logged, or exposed
+
+by the application.
+
+**---**
+
+**## Features**
+
+- First-launch screen for creating a new vault or opening an existing one
+
+- Master-password setup with a password strength meter and a required
+
+"cannot be recovered" acknowledgement
+
+- Unlock checking using authenticated encryption instead of storing a password hash
+
+- Brute-force protection during each application session, with increasing delays
+
+up to 15 seconds and no permanent lockout
+
 - Dashboard with sidebar (All Items / Favorites / Secure Notes / Categories),
-  instant search, and entry cards
-- Add / edit / delete login entries and encrypted secure notes
-- Cryptographically secure password generator (`secrets` CSPRNG, guaranteed
-  character classes, optional ambiguous-character exclusion)
-- Copy password / note to clipboard with automatic timed clearing (default 30s)
-- Temporary password reveal (eye button), never shown by default
-- Favorites, built-in + custom categories
-- "Open website" restricted to validated `http(s)` URLs
-- Auto-lock on inactivity (configurable), manual 🔒 Lock button
-- Built for the community — free to use, cross-platform (Windows, Linux,
-  Raspberry Pi, macOS, and any device that supports Python)
-- Live-preview Dark / Light / System themes (System follows the OS setting)
-- Settings page (security, appearance, generator defaults, vault info)
-- Encrypted vault backup export and restore (the backup file is the same
-  encrypted SQLite vault — plaintext export is not offered)
-- Fully offline: no sync, telemetry, analytics, accounts, or network use
 
-## Requirements
+search, and entry cards
+
+- Add / edit / delete login entries and secure notes
+
+- Password generator using Python's `secrets` module, with required character
+
+classes and an option to leave out ambiguous characters
+
+- Copy passwords or notes to the clipboard with automatic clearing (default 30s)
+
+- Passwords can be temporarily revealed when needed
+
+- Favorites and built-in or custom categories
+
+- "Open website" only accepts validated `http(s)` URLs
+
+- Auto-lock after a period of inactivity, with a manual Lock button
+
+- Free to use and works across Windows, Linux, Raspberry Pi, macOS, and other
+
+systems that support Python
+
+- Dark / Light / System themes with live preview
+
+- Settings for security, appearance, password generator defaults, and vault info
+
+- Encrypted vault backup and restore using the encrypted SQLite vault file
+
+(plaintext backup export is not available)
+
+- Fully offline with no sync, telemetry, analytics, accounts, or network access
+
+**## Requirements**
 
 - Python 3.12+
+
 - PySide6, `cryptography`, `argon2-cffi` (see `requirements.txt`)
 
-## Platform Support
+**## Platform Support**
 
-Runs anywhere Python is supported — it is pure Python and PySide6, with no
-platform-specific compiled code of its own:
+The application is written in Python and PySide6, so it does not require its
 
-- **Windows** (10 / 11)
-- **Linux** desktops (GNOME, KDE, etc.)
-- **Raspberry Pi** (Raspberry Pi OS, 32- and 64-bit)
-- **macOS** (Intel and Apple Silicon)
+own platform-specific compiled code:
+
+- ****Windows**** (10 / 11)
+
+- ****Linux**** desktops (GNOME, KDE, etc.)
+
+- ****Raspberry Pi**** (Raspberry Pi OS, 32- and 64-bit)
+
+- ****macOS**** (Intel and Apple Silicon)
+
 - Any other device/OS with a working Python 3.12+ and Qt build
 
-The Dark / Light / System themes work on every platform; **System** follows the
-OS light/dark setting (Qt detects Windows, macOS, and GNOME automatically and
-falls back to a platform probe elsewhere).
+The Dark / Light / System themes are available on all supported platforms.
 
-## About
+****System**** follows the operating system's light/dark setting. Qt detects the
 
-**saynet.ng Password Manager** is developed for the community and can be used
-freely across different platforms such as Linux, Raspberry Pi devices, and
-Windows, on essentially any system that supports Python. It is fully offline —
-your vault never leaves your machine.
+setting on Windows, macOS, and GNOME and uses a platform check on other systems.
 
-## Installation
+**## About**
+
+****saynet.ng Password Manager**** was developed by saynet.ng Innovations as a
+
+simple password manager for people who want to keep their passwords on their
+
+own device. It can be used on Windows, Linux, Raspberry Pi, macOS, and other
+
+systems that support Python.
+
+The application works completely offline. Your vault stays on the device and
+
+there is no cloud service, account, or online sync involved.
+
+**## Installation**
 
 ```bash
+
 git clone <this project>
+
 cd password_manager
+
 python -m venv .venv
+
 ```
 
 Activate the environment:
 
 ```powershell
+
 .venv\Scripts\activate        # Windows (PowerShell)
+
 ```
 
 ```bash
+
 source .venv/bin/activate     # Linux / macOS
+
 ```
 
 Install dependencies:
 
 ```bash
+
 pip install -r requirements.txt
+
 ```
 
-## Running the Application
+**## Running the Application**
 
 ```bash
+
 python main.py
+
 ```
 
-On the first launch, choose **Create New Vault**, set a master password,
-acknowledge the no-recovery warning, and unlock the vault.
+On the first launch, select ****Create New Vault****, choose a master password,
 
-## Testing
+accept the no-recovery warning, and unlock the vault.
+
+**## Testing**
 
 ```bash
+
 pytest
+
 ```
 
-The suite includes cryptographic, database, authentication, generator,
-validation, and dedicated security-regression tests
+The test suite covers the cryptography, database, authentication, password
+
+generator, validation, and security checks
+
 (`tests/test_security.py`).
 
-## Project Structure
+**## Project Structure**
 
 ```
+
 password_manager/
-├── main.py                  # thin startup: QApplication + WelcomeWindow
+
+├── main.py                  # starts QApplication and WelcomeWindow
+
 ├── requirements.txt
+
 ├── README.md
+
 ├── conftest.py              # makes `pytest` rootdir importable
+
 ├── .gitignore               # excludes vault, settings, and logs
-├── app/                     # Qt-free, fully testable core
+
+├── app/                     # Qt-free application logic
+
 │   ├── config.py            # paths, constants, persisted settings
+
 │   ├── crypto.py            # Argon2id KDF + AES-256-GCM helpers
+
 │   ├── database.py          # parameterized SQLite access
+
 │   ├── auth.py              # vault create/unlock + backoff
+
 │   ├── models.py            # Entry + unlocked Vault session
+
 │   ├── password_generator.py# `secrets`-based generator
+
 │   ├── clipboard.py         # timed clipboard clearing
+
 │   ├── validators.py        # input validation / URL sanitizing
+
 │   └── utils.py             # timestamps, redacted logging, strength
+
 ├── ui/                      # PySide6 interface
+
 │   ├── welcome_window.py    ├── setup_window.py
+
 │   ├── unlock_window.py     ├── main_window.py
+
 │   ├── add_entry_dialog.py  ├── edit_entry_dialog.py
+
 │   ├── password_generator_dialog.py
+
 │   ├── password_strength_widget.py
+
 │   ├── settings_window.py   └── styles.py
+
 ├── tests/
+
 │   ├── test_crypto.py       ├── test_auth.py
+
 │   ├── test_database.py     ├── test_password_generator.py
+
 │   ├── test_validators.py   └── test_security.py
+
 └── data/                    # created/vault lives here (gitignored)
+
 ```
 
-## Security Architecture
+**## Security Architecture**
 
-### Encryption
+**### Encryption**
 
 | Concern            | Choice                                              |
+
 |--------------------|-----------------------------------------------------|
-| Key derivation     | **Argon2id**, 64 MiB, 3 passes, parallelism 1       |
+
+| Key derivation     | ****Argon2id****, 64 MiB, 3 passes, parallelism 1       |
+
 | KDF salt           | 16 random bytes per vault (`secrets.token_bytes`)   |
-| Cipher             | **AES-256-GCM** (authenticated encryption)          |
-| Nonce              | Fresh **12 random bytes per encryption operation**  |
+
+| Cipher             | ****AES-256-GCM**** (authenticated encryption)          |
+
+| Nonce              | Fresh ****12 random bytes per encryption operation****  |
+
 | Blob layout        | `nonce ‖ ciphertext ‖ tag`                          |
+
 | Wrong key / tamper | GCM authentication failure → never decrypts         |
 
-Each entry's **entire sensitive payload** (title, username, password,
-website, category, notes, favorite flag) is serialized to JSON and encrypted
-as one unit. Only these are stored in the clear:
+Each entry's ****entire sensitive payload**** (title, username, password,
+
+website, category, notes, favorite flag) is converted to JSON and encrypted
+
+as a single unit. The following information is stored without encryption:
 
 - the KDF salt and the verifier blob in `vault_metadata`
+
 - each row's `id`, `kind`, and `created_at` / `updated_at` timestamps
 
-### Master Password
+**### Master Password**
 
-The master password is **never stored** — not hashed, not encrypted with any
-recoverable scheme. It is combined with the vault salt via Argon2id to derive
-a 32-byte key held only in process memory while the vault is unlocked.
+The master password is ****never stored****. It is not hashed or encrypted in a
 
-**Unlock verification:** the database stores a *sentinel* value encrypted with
-the derived key. To unlock, the candidate password's key must decrypt that
-sentinel and pass GCM authentication. A wrong password simply fails to
-authenticate — there is no separate password hash to attack or leak.
+way that allows it to be recovered. Instead, Argon2id uses the master password
 
-### Vault Database
+and vault salt to create a 32-byte key. The key is kept in memory while the
 
-SQLite with **parameterized queries only** (`?` placeholders), transactions,
-rollback on failure, and user-safe error translation. Raw SQLite exceptions
-are logged as non-sensitive information only.
+vault is unlocked.
 
-### Brute-Force Protection
+****Unlock verification:**** the database contains a small **sentinel** value
 
-Within an application session: attempts 1–2 have no delay; the 3rd waits 2s,
-4th 5s, 5th 10s, then a capped 15s. State is memory-only — a legitimate user
-who restarts the application is never permanently locked out (deliberate
-design choice to avoid self-inflicted denial, per the product requirements;
-it trades persistence for usability since the strong Argon2id KDF already
-makes offline guessing expensive).
+encrypted with the derived key. During unlock, the password is used to create
 
-### Logging & Clipboard
+a key and decrypt the sentinel. If authentication fails, the password is
 
-- `logging` passes through a redaction filter that drops common secret-shaped
-  assignments and any registered secret value (the master password registers
-  itself during vault operations).
-- Copied passwords are automatically cleared from the clipboard after a
-  configurable timeout, unless the user copied something else first.
+rejected. There is no separate password hash stored in the database.
 
-### Backups
+**### Vault Database**
 
-File ▸ *Create Encrypted Backup* writes a copy of the encrypted SQLite vault;
-*Restore Encrypted Backup* validates that the file is a genuine vault
-database before replacing the current one, then requires unlock with the
-backup's master password. Plaintext export is intentionally **not
-implemented** in this version. (`vault.db` and backups are excluded in
-`.gitignore`.)
+SQLite is used for the vault database. Database queries use parameterized
 
-## Threat Model
+statements (`?` placeholders), with transactions and rollback on errors.
 
-### Protects against
+SQLite errors are handled so that sensitive information is not exposed in logs.
 
-- Someone stealing or copying the vault database file without the master
-  password (offline decryption infeasible against a strong master password due
-  to Argon2id work factor + AES-256-GCM)
-- Accidental plaintext storage of secrets (only encrypted blobs are written)
-- Casual database inspection (no field is readable in cleartext)
-- Tampering with stored records (authentication tag rejection)
-- Database-level SQL injection (fully parameterized statements)
-- Clipboard exposure of secrets after copying (timed clearing)
-- Reuse of an unlocked machine inattention (auto-lock + manual lock)
-- Log files leaking master passwords / entries (redaction)
+**### Brute-Force Protection**
 
-### Does NOT fully protect against
+During a session, failed unlock attempts have increasing delays: attempts 1–2
 
-- Malware or keyloggers running on the computer while the vault is unlocked
-- A compromised operating system (privileged memory reading can extract the
-  in-session key)
-- Screen capture / shoulder surfing
-- Clipboard-monitoring malware
-- Weak master passwords (defence in depth helps, but entropy is your job)
-- Loss of the master password: **there is no recovery, by design**
-- Physical access combined with guessable passwords
+have no delay, the 3rd waits 2s, the 4th 5s, the 5th 10s, and later attempts
 
-## Limitations
+are capped at 15s. The attempt count is kept in memory and is reset when the
 
-- **Memory zeroing:** Python gives no guarantee that decrypted data or keys
-  leave RAM promptly; locking and clearing references is best-effort only.
-- Plaintext timestamps, entry `kind`, and row counts remain visible in the
-  encrypted database (metadata-level information).
-- No cloud sync / multi-device support by design.
-- No password reuse / breach checking (offline-first; out of scope).
-- The strength meter is an honest heuristic — advisory, not exhaustive.
-- Backups share the original master password's key.
+application is restarted. This means a user is not permanently locked out of
 
-## Development
+their own vault. Argon2id also adds extra work to each password attempt.
+
+**### Logging & Clipboard**
+
+- `logging` uses a redaction filter to remove common secret-like values and
+
+registered secrets from log messages.
+
+- Copied passwords are automatically removed from the clipboard after the
+
+configured timeout, unless another application has already replaced the
+
+clipboard contents.
+
+**### Backups**
+
+File ▸ **Create Encrypted Backup** creates a copy of the encrypted SQLite vault.
+
+**Restore Encrypted Backup** checks that the selected file is a valid vault
+
+database before replacing the current one. The restored vault must then be
+
+unlocked using its master password. Plaintext export is not available in this
+
+version. (`vault.db` and backups are excluded in `.gitignore`.)
+
+**## Threat Model**
+
+**### Protects against**
+
+- Someone copying the vault database without knowing the master password
+
+- Secrets being accidentally stored as plaintext
+
+- Reading saved passwords directly from the SQLite database
+
+- Changes to encrypted records being accepted without authentication
+
+- SQL injection through database input
+
+- Passwords remaining in the clipboard indefinitely after being copied
+
+- Leaving an unlocked vault unattended when auto-lock is enabled
+
+- Passwords or other saved entries being written to log files
+
+**### Does NOT fully protect against**
+
+- Malware or keyloggers running while the vault is unlocked
+
+- A compromised operating system that can access application memory
+
+- Screen capture or someone looking at the screen
+
+- Malware that monitors the clipboard
+
+- Weak or easily guessed master passwords
+
+- Losing the master password: ****there is no recovery, by design****
+
+- Physical access to the computer combined with a guessable password
+
+**## Limitations**
+
+- ****Memory zeroing:**** Python does not guarantee that keys or decrypted data
+
+are removed from memory immediately. Clearing references when locking is
+
+best-effort.
+
+- Some database information, including timestamps, entry `kind`, and row
+
+counts, remains visible.
+
+- No cloud sync or multi-device support.
+
+- No password reuse or breach checking.
+
+- The password strength meter is a guide and should not be treated as a
+
+complete security assessment.
+
+- Backups use the same master password as the original vault.
+
+**## Development**
 
 ```bash
+
 pip install -r requirements.txt
+
 pytest            # run the test suite
+
 python main.py    # run the application
+
 ```
 
-## Packaging a Windows Executable (PyInstaller)
+**## Packaging a Windows Executable (PyInstaller)**
 
 From the project root, with PyInstaller installed
+
 (`pip install pyinstaller`):
 
 ```powershell
+
 pyinstaller --noconfirm --clean --windowed --name PasswordManager `
-    --icon=app_icon.ico main.py
+
+```
+--icon=app\_icon.ico main.py
+```
+
 ```
 
 Notes:
 
-- PyInstaller ships hooks for PySide6; `QApplication` plugins are bundled
-  automatically.
-- Provide `app_icon.ico` for a custom icon; the app uses the `b.png` logo at
-  runtime via `ui/styles.create_app_icon()` (falls back to a drawn shield/lock
-  if `b.png` is missing — keep it alongside the executable when packaging).
-- The `data/` folder is created next to the executable at first run — keep the
-  `.exe` in a folder you treat as your vault location (or set the same path
-  when restoring a backup).
-- For smaller output, `--onefile` can be added, but expect slower startup and
-  more antivirus false positives (PyInstaller bootstrappers are commonly
-  flagged; whitelist your own build).
-- Rebuild + retest after every dependency change.
+- PyInstaller includes support for PySide6; the required Qt plugins are
 
-## License
+bundled during the build.
 
-MIT — see `LICENSE` (or add your own license file as preferred).
+- Provide `app_icon.ico` if you want to use a custom application icon. The
+
+application uses the `b.png` logo at runtime through
+
+`ui/styles.create_app_icon()`. If `b.png` is not available, it falls back
+
+to a simple shield/lock icon. Keep the image with the executable when needed.
+
+- The `data/` folder is created next to the executable when the application
+
+runs for the first time. Keep the executable in a location where you want
+
+the vault data to be stored, or use the same location when restoring a backup.
+
+- For a smaller build, `--onefile` can be used. It may take longer to start
+
+and can sometimes trigger antivirus warnings because of how PyInstaller
+
+packages applications.
+
+- Rebuild and test the application after changing dependencies.
